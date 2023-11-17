@@ -169,9 +169,9 @@ function initClient() {
     // Handle the authorization
   });
 }
-function load() {
-  gapi.auth2.getAuthInstance().signIn();
-}
+// function load() {
+//   gapi.auth2.getAuthInstance().signIn();
+// }
 function uploadFiles() {
   const files = document.getElementById('fileInput').files;
   for (const file of files) {
