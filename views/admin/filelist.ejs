@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACPASD | Admin | File list</title>
-    <link rel="shortcut icon" href="https://test-2.vidulhb.repl.co/img/main_icon.png" />
+    <link rel="shortcut icon" href="https://odd-gray-pike-wear.cyclic.app/img/main_icon.png" />
   <script src="https://kit.fontawesome.com/6324e69e50.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://test-2.vidulhb.repl.co/styles.css">
+    <link rel="stylesheet" href="https://odd-gray-pike-wear.cyclic.app/styles.css">
   <script src="https://unpkg.com/html5-fs@0.1.1/dist/fs.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js">
@@ -258,7 +258,7 @@
         <div id="myModal3" class="modal3">
         <div class="modal-content" style="height: 300px; justify-content: center;">
           <span class="close">&times;</span>
-         <iframe src="https://test-2.vidulhb.repl.co/admin/uploadfile?id=<%-folderID%>" id="iframe" style="width: 550px; height:250px; border-radius: 30px;"></iframe>
+         <iframe src="https://odd-gray-pike-wear.cyclic.app/admin/uploadfile?id=<%-folderID%>" id="iframe" style="width: 550px; height:250px; border-radius: 30px;"></iframe>
           <h2 style=" color: #ffffff; font-size:15px; margin-top: 10px;" id="modalheader2">Click The X To Close Pop-Up</h2>
         </div>
         </div>
@@ -294,20 +294,20 @@ var span = document.getElementsByClassName("close");
   $(".OpenFolderbutton").click(function() {
     var idclass = $(this).attr('id');
     var id = idclass.replace('#', '')
-    return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?folder=${id}`
+    return window.location.href = `https://odd-gray-pike-wear.cyclic.app/admin/filelist?folder=${id}`
   })
   $(".Openbutton").click(function() {
     var idclass = $(this).attr('id');
     var id = idclass.replace('#', '')
-    return window.location.href = `https://test-2.vidulhb.repl.co/upload/file/${id}`
+    return window.location.href = `https://odd-gray-pike-wear.cyclic.app/upload/file/${id}`
   })
   $(".pathclick").click(function() {
     var idclass = $(this).attr('id');
     var id = idclass.replace('#', '')
     if(id === "drives"){
-    return window.location.href = `https://test-2.vidulhb.repl.co/admin/drivelist`
+    return window.location.href = `https://odd-gray-pike-wear.cyclic.app/admin/drivelist`
     }else{
-      return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?folder=${id}`
+      return window.location.href = `https://odd-gray-pike-wear.cyclic.app/admin/filelist?folder=${id}`
     }
   })
   $("#folder").click(function() {
@@ -327,7 +327,7 @@ var span = document.getElementsByClassName("close");
   $(".Nextbutton").click(function() {
     var idclass = $(this).attr('id');
     var id = idclass.replace('#', '')
-    return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?pageToken=${id}`
+    return window.location.href = `https://odd-gray-pike-wear.cyclic.app/admin/filelist?pageToken=${id}`
   })
   $(".Delbutton").click(function() {
     var idclass = $(this).attr('id');
@@ -404,5 +404,5 @@ window.onclick = function(event) {
         });
 </script>
 </body>
-<script src="https://test-2.vidulhb.repl.co/script.js"></script>
+<script src="https://odd-gray-pike-wear.cyclic.app/script.js"></script>
 </html>
