@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACPASD | Admin | File list</title>
+    <link rel="shortcut icon" href="https://test-2.vidulhb.repl.co/img/main_icon.png" />
+  <script src="https://kit.fontawesome.com/6324e69e50.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://test-2.vidulhb.repl.co/styles.css">
+  <script src="https://unpkg.com/html5-fs@0.1.1/dist/fs.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js">
+  </script>
+  <style>
+    .thebutton {
+      background-color: rgba(252, 4, 0, 0.5);
+  text-align: center;
+      margin: 4px;
+      margin-top: 80px;
+  padding: 0.0002em 1em;
+  border-radius: 8px;
+  width: max-content;
+        font-size: 18px;
+      position: relative;
+       display: inline-block; 
+      float: left;
+      height: 30px;
+      cursor: pointer;
+    }
+    .thebutton p {
+      margin: 2px;
+    }
+    .thebutton h1 {
+      margin: 2px;
+    }
+    .selected {
+        background-color: #2b96f3;
+      }
+      .navbutton {
+    text-align: center;
+        margin: 4px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    padding: 0.0002em 1em;
+    border-radius: 8px;
+    width: max-content;
+          font-size: 18px;
+        position: relative;
+         display: inline-block; 
+        float: left;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: bold;
+      }
+      .hoverbotton:hover {
+        background-color: rgb(188, 233, 251);
+        color: #000000;
+      }
+    .pathclick:hover {
+      color: rgb(188, 233, 251);
+      cursor: pointer;
+    }
+      .navbutton p {
+        margin: 2px;
+      }
+      .navbutton h1 {
+        margin: 2px;
+      }
+    /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    .modal2 {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: hidden; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    .modal3 {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: hidden; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #333;
+  opacity: 0.9;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border-radius: 20px;
+  width: 40%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <div style="background-color: #333; margin: 20px; margin-right: 0px; padding: 20px; border-radius: 20px; width: 500px; height: 50px; opacity: 0.9; text-align: left;" class="admin_news">
+    <div class="navbutton selected" style="cursor: default;" id="blog">
+      <p>
+      <span class="pathclick" id="drives">Drives/</span><% for(var i=0; i<folderPath.length; i++) { %><span class="pathclick" id="<%-folderPath[i].id%>"><%-folderPath[i].foldername%>/</span><%}%>
+        </p></div>
+    <%const path3 = path2.reverse()%>
+      <%if(path3[0].foldername.includes('Drive')){%>
+    <div class="navbutton hoverbotton" id="folder"> <p><i class="fa-solid fa-folder-plus"></i> Create Folder</p> </div>
+     <%}%>
+         <%if(!path3[0].foldername.includes('Drive')){%>
+      <div class="navbutton hoverbotton" id="upload"> <p><i class="fa-solid fa-upload"></i> Upload Files</p> </div>
+<%}%>
+  </div>
+  <%if(files){%>
+<% for(var i=0; i<fdata.length; i++) { %>
+  <% if(fdata[i].mimeType === 'application/vnd.google-apps.folder'){ %>
+    <% const fileName = fdata[i].name %>
+          <% const folderID = fdata[i].id %>
+    <% const date11 = fdata[i].createdTime %>
+      <% const date12 = fdata[i].modifiedTime %>
+
+              <% const date1 = new Date(date11); %>
+                <% const minute = date1.setMinutes(date1.getMinutes()+330); %>
+                  <% const date = `${new Date(minute)}` %>
+                     <% const TheDate =  date.replace(' GMT+0000 (Coordinated Universal Time)', '')%>
+                   <% const date3 = new Date(date12); %>
+                     <% const minute2 = date3.setMinutes(date3.getMinutes()+330); %>
+                       <% const date2 = `${new Date(minute2)}` %>
+                          <% const TheModDate =  date2.replace(' GMT+0000 (Coordinated Universal Time)', '')%>
+
+      <div style="background-color: #333; margin: 20px; margin-right: 0px; padding: 20px; border-radius: 20px; height: 200px; opacity: 0.9; width: 400px; position: relative; display: inline-block; float: left; text-align: left;" class="file-item" data-file-name="<%-fileName%>">
+
+      <h1 style=" color: #2b96f3; font-size:25px; margin-top: -10px;" class="quizbutton"><%-fileName%></h1>
+            <p style=" color: #ffffff; font-size:20px; margin-top: -15px; margin-bottom: 5px;">Creation Date: <%-TheDate%></p>
+
+
+        <div style="bottom: 0; position: absolute; margin-bottom: 20px;">
+          <div class="thebutton OpenFolderbutton"id="<%-folderID%>" style="color: #fff700;background-color: rgba(255, 247, 145, 0.4);">
+            <p><i class="fa-solid fa-arrow-up-right-from-square fa-fade" style="color: #fff700;"></i> Open</p>
+          </div>
+          <div class="thebutton Delbutton"id="<%-fdata[i].id%>" name="<%-fileName%>" style="color: #e30e27;background-color: rgba(252, 4, 0, 0.4);">
+            <p><i class="fa-solid fa-trash fa-fade" style="color: #e30e27;"></i> Delete</p>
+          </div>
+          <div class="thebutton CopyLink"id="<%-fdata[i].webViewLink%>" style="color: #38a4fc;background-color: rgba(56, 164, 252, 0.4);">
+            <p><i class="fa-solid fa-copy fa-fade" style="color: #38a4fc;"></i> Copy Link</p>
+          </div>
+          <div class="thebutton LinkToggle"id="<%-fdata[i].id%>" name="<%-fdata[i].permissions[1].role%>" style="color: #38fc83;background-color: rgba(56, 252, 131, 0.4); margin-top: -70px;">
+            <p><i class="fa-solid fa-pen-ruler fa-fade" style="color: #38fc83;"></i> Link Mode: <%-fdata[i].permissions[1].role%></p>
+          </div>
+            </div>
+      </div>
+    <%}else{%>
+  <% const date11 = fdata[i].createdTime %>
+   <% const originalString = fdata[i].name %>
+<% const separator = "_"; %>
+<% const parts = originalString.split(separator); %>
+<%   const fileName = parts.slice(2).join(separator); %>
+
+            <% const date1 = new Date(date11); %>
+              <% const minute = date1.setMinutes(date1.getMinutes()+330); %>
+                <% const date = `${new Date(minute)}` %>
+               <% const TheDate =  date.replace(' GMT+0000 (Coordinated Universal Time)', '')%>
+
+              <% const sizes = ['B', 'KB', 'MB', 'GB', 'TB']; %>
+                <% const bytes = fdata[i].size%>
+ <% const base = 1024 %>
+ <% const index = Math.floor(Math.log(bytes) / Math.log(base)); %>
+ <%  let formattedSize; %>
+<%  if (index === 2) { %>
+<%    formattedSize = (bytes / Math.pow(base, index)).toFixed(1); %>
+<%  } else { %>
+<%    formattedSize = (bytes / Math.pow(base, index)).toFixed(0); %>
+<%  } %>
+  <% const fileSize = `${formattedSize} ${sizes[index]}`%>
+    <div style="background-color: #333; margin: 20px; margin-right: 0px; padding: 20px; border-radius: 20px; height: 200px; opacity: 0.9; width: 400px; position: relative; display: inline-block; float: left; text-align: left;" class="file-item" data-file-name="<%-fileName%>">
+      
+    <h1 style=" color: #2b96f3; font-size:25px; margin-top: -10px;" class="quizbutton"><%-originalString%></h1>
+          <p style=" color: #ffffff; font-size:20px; margin-top: -15px; margin-bottom: 5px;">Upload Date: <%-TheDate%></p>
+              <p style=" color: #ffffff; font-size:20px; margin-top: -10px; margin-bottom: 5px;">File Size: <%-fileSize%></p>
+
+              
+      <div style="bottom: 0; position: absolute; margin-bottom: 20px;">
+        <div class="thebutton Openbutton"id="<%-originalString%>" style="color: #fff700;background-color: rgba(255, 247, 145, 0.4);">
+          <p><i class="fa-solid fa-arrow-up-right-from-square fa-fade" style="color: #fff700;"></i> Open</p>
+        </div>
+            
+      <div class="thebutton Delbutton"id="<%-fdata[i].id%>" name="<%-fileName%>" style="color: #e30e27;background-color: rgba(252, 4, 0, 0.4);">
+        <p><i class="fa-solid fa-trash fa-fade" style="color: #e30e27;"></i> Delete</p>
+      </div>
+        <%if(fdata[i].thumbnailLink){%>
+        <img src="<%-fdata[i].thumbnailLink%>" alt="thumbnail" class="blogimg" style="float: right; width: 120px; height: 80px;">
+          <%}%>
+          </div>
+    </div>
+<%}%>
+  <%}%>
+      <%if(pageToken){%>
+  <div class="thebutton Nextbutton"id="<%-pageToken%>" style="color: #e30e27;background-color: rgba(252, 4, 0, 0.4);">
+    <p><i class="fa-solid fa-trash fa-fade" style="color: #e30e27;"></i> Next Page</p>
+  </div>
+  <%}%>
+    <%}else{%>
+      <div style="background-color: #333; margin: 20px; margin-right: 0px; padding: 20px; border-radius: 20px; width: 260px; height: 50px; opacity: 0.9; text-align: left;" class="admin_news">
+        <div class="navbutton selected" style="cursor: default;" id="blog">
+          <p><i class="fa-solid fa-file"></i> No Files In This Folder</p>
+        </div>
+
+      </div>
+      <%}%>
+<div id="myModal2" class="modal2">
+  <div class="modal-content" style="height: 300px; justify-content: center;">
+    <span class="close">&times;</span>
+    <h1 style=" color: #2b96f3; font-size:30px; margin-top: -10px;" id="modalheader3">Confirm Deletion Of: hello</h1>
+    <div class="thebutton Delconfirm" id="" style=" height: 40px; color: #e30e27;background-color: rgba(252, 4, 0, 0.4);"><h1 style="font-size: 25px;"><i class="fa-solid fa-trash fa-fade" style="color: #e30e27;"></i> Confirm</h1></div>
+    <div class="thebutton close2"style="height: 40px; color: #fff700;background-color: rgba(255, 247, 145, 0.4);"><h1 style="font-size: 25px;"><i class="fa-solid fa-ban fa-fade" style="color: #fff700;"></i> Cancel</h1></div>
+  </div>
+
+</div>
+        <div id="myModal3" class="modal3">
+        <div class="modal-content" style="height: 300px; justify-content: center;">
+          <span class="close">&times;</span>
+         <iframe src="https://test-2.vidulhb.repl.co/admin/uploadfile?id=<%-folderID%>" id="iframe" style="width: 550px; height:250px; border-radius: 30px;"></iframe>
+          <h2 style=" color: #ffffff; font-size:15px; margin-top: 10px;" id="modalheader2">Click The X To Close Pop-Up</h2>
+        </div>
+        </div>
+        
+        <%if(path2[0].foldername.includes('Drive')){%>
+    <div id="myModal" class="modal">
+      <div class="modal-content" style="height: 350px; justify-content: center;">
+        <span class="close">&times;</span>
+        <h1 style=" color: #2b96f3; font-size:30px; margin-top: -10px;" id="modalheader2">Creating Folder In <%-folderPath[0].foldername%></h1>
+        <h2 style=" color: #ffffff; font-size:20px; margin-top: -10px;" id="modalheader2">Drive Capacity: <%-driveFolderSize%>/15GB</h1>
+        <h2 style=" color: #ffffff; font-size:20px; margin-top: -10px;" id="modalheader2">Note: Make Sure The Drive Has Enough Storage For The Files You'll Be Uploading</h2>
+        <div class="news_form" style="margin-top: -20px; margin-bottom: -60px; color: #000000">
+        <label for="title" style="font-size:20px; color: #000000; font-weight: bolder; font-family: 'Poppins', sans-serif;">Name:</label><br>
+        <input type="text" class="blogformtitle" id="fodname" name="fodname" placeholder="Name Of The Folder">  
+        </div>
+        <div class="thebutton Fodconfirm" id="<%-folderPath[0].id%>" style=" height: 40px; color: #45f556;background-color: rgba(69, 245, 86, 0.4);"><h1 style="font-size: 25px;"><i class="fa-solid fa-square-plus fa-fade" style="color: #45f556;"></i> Confirm</h1></div>
+        <div class="thebutton close2"style="height: 40px; color: #fff700;background-color: rgba(255, 247, 145, 0.4);"><h1 style="font-size: 25px;"><i class="fa-solid fa-ban fa-fade" style="color: #fff700;"></i> Cancel</h1></div>
+      </div>
+
+    </div>
+          <%}%>
+<script>
+
+  function reload() {
+  window.location.reload();
+}
+  var modal = document.getElementById("myModal");
+  var modal2 = document.getElementById("myModal2");
+  var modal3 = document.getElementById("myModal3");
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close");
+  var span2 = document.getElementsByClassName("close2");
+  $(".OpenFolderbutton").click(function() {
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?folder=${id}`
+  })
+  $(".Openbutton").click(function() {
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    return window.location.href = `https://test-2.vidulhb.repl.co/upload/file/${id}`
+  })
+  $(".pathclick").click(function() {
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    if(id === "drives"){
+    return window.location.href = `https://test-2.vidulhb.repl.co/admin/drivelist`
+    }else{
+      return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?folder=${id}`
+    }
+  })
+  $("#folder").click(function() {
+  modal.style.display = "block";
+  })
+  $(".Fodconfirm").click(function() {
+  modal.style.display = "none";
+    var name = $('#fodname').val()
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    console.log(`${name}, ${id}`)
+    axios.post('/upload/createfolder', {
+      name: `${name}`,
+      id: `${id}`,
+    })
+  })
+  $(".Nextbutton").click(function() {
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    return window.location.href = `https://test-2.vidulhb.repl.co/admin/filelist?pageToken=${id}`
+  })
+  $(".Delbutton").click(function() {
+    var idclass = $(this).attr('id');
+    var id = idclass.replace('#', '')
+    var name = $(this).attr('name')
+    $(".Delconfirm").attr('id', `${id}`)
+    document.getElementById("modalheader3").innerHTML = `Confirm Deletion Of: ${name}`
+  modal2.style.display = "block";
+  })
+  $(".Delconfirm").click(function() {
+    var nameid = $(".Delconfirm").attr('id')
+     var id = nameid.replace('#', '')
+  axios.post('/upload/deletefile', {
+      id: `${id}`,
+    })
+    setTimeout(reload, 1000)
+  })
+  $(".CopyLink").click(function() {
+      var idclass = $(this).attr('id')
+    var id = idclass.replace('#', '')
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = id;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+  })
+  $(".LinkToggle").click(function() {
+    var nameid = $(this).attr('id')
+    var namename = $(this).attr('name')
+     var id = nameid.replace('#', '')
+  axios.post('/upload/togglerole', {
+      id: `${id}`,
+      role: `${namename}`,
+    })
+    setTimeout(reload, 1000)
+  })
+  $("#upload").click(function() {
+  modal3.style.display = "block";
+  })
+  $(".close").click(function() {
+    <%if(path2[0].foldername.includes('Drive')){%>
+  modal.style.display = "none";
+  <%}%>
+    modal2.style.display = "none";
+    modal3.style.display = "none";
+})
+  $(".close2").click(function() {
+    <%if(path2[0].foldername.includes('Drive')){%>
+    modal.style.display = "none";
+    <%}%>
+    modal2.style.display = "none";
+    modal3.style.display = "none";
+})
+window.onclick = function(event) {
+  if (event.target == modal) {
+    <%if(path2[0].foldername.includes('Drive')){%>
+    modal.style.display = "none";
+    <%}%>
+    modal2.style.display = "none";
+    modal3.style.display = "none";
+  }
+}
+
+  $(document).ready(function() {
+            $('#searchInput').on('input', function() {
+                var searchText = $(this).val().trim().toLowerCase();
+                $('.file-item').each(function() {
+                    var fileName = $(this).data('file-name').toLowerCase();
+                    var isMatch = fileName.includes(searchText);
+                    $(this).toggle(isMatch);
+                });
+            });
+        });
+</script>
+</body>
+<script src="https://test-2.vidulhb.repl.co/script.js"></script>
+</html>

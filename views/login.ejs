@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACPASD | Login</title>
+    <link rel="shortcut icon" href="img/main_icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/6324e69e50.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+  
+  <div class="login_form">
+    <h1>Login Form</h1>
+    <form id="login-form">
+   <div class="imgcontainer">
+    <img src="img/img_avatar2.png" alt="Avatar" class="avatar">
+   </div>
+      <div style="margin-left: 2%; margin-right: 68%; background-color: rgba(252, 40, 40, 0.137254902);
+  color: #ce4747;
+  text-align: center;
+  padding: 0.0002em 1em;
+  border-radius: 8px;
+  width: max-content;
+        font-size: 18px; display: none;" id="error">
+        <p>Incorrect Password</p>
+      </div>
+    <label for="username" style="color: white;"><b>Username</b></label><br>
+    <input type="text" placeholder="Enter Username" name="username" required><br>
+
+    <label for="password" style="color: white;"><b>Password</b></label><br>
+    <input type="password" placeholder="Enter Password" name="password" required><br>
+
+    <button type="submit2">Login</button><br>
+  
+</form>
+  </div>
+  <script> 
+    const errordiv = document.getElementById('error')
+
+    const errMsg = (msg = "") => {
+			if (msg == "pswIN") {
+        errordiv.innerHTML = '<p>Password Incorrect</p>';
+        errordiv.style.display = "block";
+			} else if (msg == "UsrIN") {
+				  errordiv.innerHTML = '<p>Username Is Not Registered</p>';
+        errordiv.style.display = "block";
+		}else if(msg == "none"){
+        errordiv.style.display = "none";
+    }
+			}
+    
+    const login = (data) => {
+    axios.post('/api/login', {
+    username: `${data.username}`,
+      password: `${data.password}`
+  })
+  .then(function (res) {
+    errMsg('none')
+    window.location.href = "/"
+  })
+  .catch(function (error) {
+    if(error.response.status == 401){
+        if(error.response.data.message === 'password incorrect'){
+          errMsg("pswIN")
+        } else if(error.response.data.message === 'username incorrect'){
+          errMsg("UsrIN")
+        }
+    }
+    })
+   }
+    document.querySelector("#login-form").addEventListener("submit", (e) => {
+			e.preventDefault()
+			const data = Object.fromEntries(new FormData(e.target).entries())
+			login(data)
+		})
+  </script>
+</body>
+<script src="script.js"></script>
+</html>

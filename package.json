@@ -1,27 +1,47 @@
 {
-  "name": "express-hello-world",
+  "name": "techlore",
   "version": "1.0.0",
-  "description": "Expressjs Hello World example to provide faster start deploying on Cyclic platform",
-  "main": "server.js",
+  "description": "**This is the official repo for TECHLORE site**",
+  "main": "index.js",
   "scripts": {
-    "serve": "nodemon --watch . server.js",
-    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cyclic-software/express-hello-world.git"
+    "url": "git+https://github.com/GSprogrammers/TECHLORE.git"
   },
-  "author": "Cyclic Software",
-  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cyclic-software/express-hello-world/issues"
+    "url": "https://github.com/GSprogrammers/TECHLORE/issues"
   },
-  "homepage": "https://github.com/cyclic-software/express-hello-world#readme",
+  "homepage": "https://github.com/GSprogrammers/TECHLORE#readme",
   "dependencies": {
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
+    "axios": "^1.2.1",
+    "better-sqlite3": "^8.0.1",
+    "body-parser": "^1.20.1",
+    "chalk": "^4.1.2",
+    "connect-mongo": "^3.0.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-ws": "^5.0.2",
+    "fs": "^0.0.1-security",
+    "googleapis": "^122.0.0",
+    "html": "^1.0.0",
+    "moment": "^2.29.4",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.8.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.1",
+    "os-utils": "^0.0.14",
+    "pidusage": "^3.0.2",
+    "quick.db": "^9.0.7",
+    "socket.io": "^4.7.1",
+    "systeminformation": "^5.18.7",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
   }
 }

@@ -1,0 +1,1 @@
+{"version":2,"languages":{"nodejs-npm":{"specfileHash":"2da7b8c68d11db6c818665985aa9e03a","lockfileHash":"6b812609793b53c81f5f463e180ed87b","guessedImports":["quick.db","googleapis","html","ejs","uuid","connect-mongo","express","chalk","multer","body-parser","express-session","mongodb","mongoose"],"guessedImportsHash":"c45bdb2ac82469a683b0a4897f3769ad"}}}
