@@ -90,7 +90,7 @@
 </style>
 </head>
 
-  <body>
+  <body onload="load()">
     <div class="news_form">
       <h2>Upload Files Here</h2>
       <form class="admin_news" action="/api/addnews" method="post" enctype="multipart/form-data">
@@ -108,6 +108,7 @@
         </div>
       </div>
     </div>
+    <script src="https://apis.google.com/js/api.js"></script>
 
     <script>
       const modal = document.getElementById("myModal");
@@ -116,45 +117,99 @@
       const progressText = document.getElementById('progress');
       const progressCon = document.getElementById('progressCon');
 
+      // fileInput.addEventListener('change', function () {
+      //   const files = fileInput.files;
+      //   if (files.length > 0) {
+      //     const formData = new FormData();
+      //     for (let i = 0; i < files.length; i++) {
+      //       formData.append('files[]', files[i]); // Use 'files[]' to indicate an array of files.
+      //     }
+
+      //     const xhr = new XMLHttpRequest();
+      //     xhr.open('POST', '/Upload', true);
+
+      //     xhr.upload.addEventListener('progress', (e) => {
+      //       if (e.lengthComputable) {
+      //         const percentage = Math.round((e.loaded / e.total) * 100);
+      //         modal.style.display = "block";
+      //         progressBar.style.width = `${percentage}%`;
+      //         if (percentage === 100) {
+      //           // progressText.innerHTML = `Saving... This Might Take Some Time (Depending On The File Size)`;
+      //           progressBar.style.display = "none"
+      //           progressText.innerHTML = ``
+      //           progressText.innerHTML = `Done... You Can Click X Button To Exit This Pop-Up`
+      //         } else {
+      //           progressText.innerHTML = `${percentage}%`;
+      //         }
+      //       }
+      //     });
+
+      //     xhr.onload = function () {
+      //       if (xhr.status === 200) {
+      //         progressBar.style.display = "none"
+      //         progressText.innerHTML = ``
+      //         progressText.innerHTML = `Done... You Can Click X Button To Exit This Pop-Up`
+      //       } else {
+      //         console.error('Error uploading files.');
+      //       }
+      //     };
+      //     formData.append('id', `<%-FolderID%>`)
+      //     xhr.send(formData);
+      //   }
+      // });
+      gapi.load('client:auth2', initClient);
+
+function initClient() {
+  gapi.client.init({
+    apiKey: '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',
+    clientId: '575885196733-42k59toflhicu532gdjjmd7kf7501jok.apps.googleusercontent.com',
+    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+    scope: 'https://www.googleapis.com/auth/drive.file',
+  }).then(function () {
+    // Handle the authorization
+  });
+}
+function load() {
+  gapi.auth2.getAuthInstance().signIn();
+}
+function uploadFiles() {
+  const files = document.getElementById('fileInput').files;
+  for (const file of files) {
+    uploadFile(file);
+  }
+}
+
+const currentUrl = window.location.href;
+const urlParams = new URLSearchParams(currentUrl);
+const parentFolderId = urlParams.get('id');
+
+function uploadFile(file, parentFolderId) {
+  const metadata = {
+    name: file.name,
+    mimeType: file.type,
+    parents: [parentFolderId], // Add the parent folder ID
+  };
+
+  const form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+  form.append('file', file);
+
+  gapi.client.drive.files.create({
+    resource: metadata,
+    media: {
+      mimeType: file.type,
+      body: form,
+    },
+  }).then(function (response) {
+    console.log('File ID:', response.result.id);
+  });
+}
+
+
+
+
       fileInput.addEventListener('change', function () {
-        const files = fileInput.files;
-        if (files.length > 0) {
-          const formData = new FormData();
-          for (let i = 0; i < files.length; i++) {
-            formData.append('files[]', files[i]); // Use 'files[]' to indicate an array of files.
-          }
-
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', '/Upload', true);
-
-          xhr.upload.addEventListener('progress', (e) => {
-            if (e.lengthComputable) {
-              const percentage = Math.round((e.loaded / e.total) * 100);
-              modal.style.display = "block";
-              progressBar.style.width = `${percentage}%`;
-              if (percentage === 100) {
-                // progressText.innerHTML = `Saving... This Might Take Some Time (Depending On The File Size)`;
-                progressBar.style.display = "none"
-                progressText.innerHTML = ``
-                progressText.innerHTML = `Done... You Can Click X Button To Exit This Pop-Up`
-              } else {
-                progressText.innerHTML = `${percentage}%`;
-              }
-            }
-          });
-
-          xhr.onload = function () {
-            if (xhr.status === 200) {
-              progressBar.style.display = "none"
-              progressText.innerHTML = ``
-              progressText.innerHTML = `Done... You Can Click X Button To Exit This Pop-Up`
-            } else {
-              console.error('Error uploading files.');
-            }
-          };
-          formData.append('id', `<%-FolderID%>`)
-          xhr.send(formData);
-        }
+        
       });
     </script>
   </body>
