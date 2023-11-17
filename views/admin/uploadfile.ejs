@@ -108,7 +108,8 @@
         </div>
       </div>
     </div>
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://github.com/googleapis/google-api-nodejs-client/blob/main/src/index.ts"></script>
+    <script src="https://github.com/expressjs/multer/blob/master/index.js"></script>
 
     <script>
       const modal = document.getElementById("myModal");
@@ -157,60 +158,61 @@
       //     xhr.send(formData);
       //   }
       // });
-      gapi.load('client:auth2', initClient);
 
-function initClient() {
-  gapi.client.init({
-    apiKey: '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',
-    clientId: '575885196733-42k59toflhicu532gdjjmd7kf7501jok.apps.googleusercontent.com',
-    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-    scope: 'https://www.googleapis.com/auth/drive.file',
-  }).then(function () {
-    // Handle the authorization
+      const files = fileInput.files;
+      const KEYFILEPATH = 'https://acpasd.cyclic.app/service.json'
+  const SCOPES = ['https://www.googleapis.com/auth/drive'];
+
+  const auth = new google.auth.GoogleAuth({
+    keyFile: KEYFILEPATH,
+    scopes: SCOPES,
   });
-}
-// function load() {
-//   gapi.auth2.getAuthInstance().signIn();
-// }
-function uploadFiles() {
-  const files = document.getElementById('fileInput').files;
-  for (const file of files) {
-    uploadFile(file);
-  }
-}
 
-const currentUrl = window.location.href;
-const urlParams = new URLSearchParams(currentUrl);
-const parentFolderId = urlParams.get('id');
+const drive = google.drive({ version: 'v3', auth })
 
-function uploadFile(file, parentFolderId) {
-  const metadata = {
-    name: file.name,
-    mimeType: file.type,
-    parents: [parentFolderId], // Add the parent folder ID
+
+const upload = multer();
+
+const uploadFile = async (fileObject, res, body) => {
+  const bufferStream = new stream.PassThrough();
+  bufferStream.end(fileObject.buffer);
+  const Filename = `${fileObject.originalname}`;
+
+  const fileSize = fileObject.buffer.length;
+
+  const media = {
+    mimeType: fileObject.mimeType,
+    body: bufferStream,
   };
 
-  const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-  form.append('file', file);
+  const fileMetadata = {
+    name: Filename,
+    parents: [`${body.id}`],
+  };
 
-  gapi.client.drive.files.create({
-    resource: metadata,
-    media: {
-      mimeType: file.type,
-      body: form,
-    },
-  }).then(function (response) {
-    console.log('File ID:', response.result.id);
-  });
+  const upload = drive.files.create(
+    {
+      resource: fileMetadata,
+      media: media,
+      fields: 'id,name',
+    }
+  );
+
+  return upload; // Return the upload promise.
+};
+
+fileInput.addEventListener('change', async function () {
+const uploadPromises = [];
+
+for (const file of files) {
+  const uploadPromise = uploadFile(file, res, req.body);
+  uploadPromises.push(uploadPromise);
 }
 
+await Promise.all(uploadPromises);
+console.log('done...')
+});
 
-
-
-      fileInput.addEventListener('change', function () {
-        
-      });
     </script>
   </body>
   <script src="https://acpasd.cyclic.app/script.js"></script>
