@@ -28,8 +28,6 @@ api.post('/login', async function(req, res, next) {
     if (data) {
       user.findOne({ password: info.password }, async (err, data) => {
         if (data) {
-          const logins = await dbb.get("logins")
-  dbb.add("logins", 1)
           req.session.user = data.username;
           res.redirect('/')
         } else {
