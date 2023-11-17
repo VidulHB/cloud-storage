@@ -39,9 +39,7 @@
     "os-utils": "^0.0.14",
     "pidusage": "^3.0.2",
     "quick.db": "^9.0.7",
-    "socket.io": "^4.7.1",
     "systeminformation": "^5.18.7",
-    "uuid": "^9.0.0",
-    "ws": "^8.13.0"
+    "uuid": "^9.0.0"
   }
 }
