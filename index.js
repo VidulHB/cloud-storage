@@ -1,4 +1,5 @@
 const express = require('express')
+const serverless = require('serverless-http');
 const app = express()
 const PORT = 3000;
 const html = require('html');
@@ -82,3 +83,4 @@ app.use('/Upload', upload)
 app.use((req, res, next) => {
     res.render('404.ejs')
 })
+module.exports.handler = serverless(app);
