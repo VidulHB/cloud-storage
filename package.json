@@ -40,6 +40,9 @@
     "pidusage": "^3.0.2",
     "quick.db": "^9.0.7",
     "systeminformation": "^5.18.7",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "netlify-cli": "^12.7.2",
+    "netlify-lambda": "^2.0.15",
+    "serverless-http": "^2.7.0"
   }
 }
